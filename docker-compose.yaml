@@ -1,0 +1,23 @@
+version: '3'
+services:
+  microservice1:
+    build: ./microservice1
+    ports:
+      - "8080:80"
+    environment:
+      - SQS_QUEUE_URL=${SQS_QUEUE_URL}
+      - SSM_TOKEN_PARAMETER=${SSM_TOKEN_PARAMETER}
+    networks:
+      - app-network
+
+  microservice2:
+    build: ./microservice2
+    environment:
+      - SQS_QUEUE_URL=${SQS_QUEUE_URL}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
